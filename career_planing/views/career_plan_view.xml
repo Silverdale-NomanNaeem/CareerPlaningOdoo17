@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TREEEE VIEW-->
+<odoo>
+
+    <record id="view_career_plan_tree" model="ir.ui.view">
+        <field name="name">career.plan.tree</field>
+        <field name="model">career.plan</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="employee" optional="show"/>
+                <field name="start_date" optional="show"/>
+                <field name="end_date" optional="show"/>
+                <field name="goals_id" optional="show" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </tree>
+        </field>
+    </record>
+    <!--FORMMM VIEW-->
+    <record id="view_career_plan_form" model="ir.ui.view">
+        <field name="name">career.plan.form</field>
+        <field name="model">career.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Career Form">
+                        <group string="Career Information">
+                            <field name="employee"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Goals">
+                                <field name="goals_id"/>
+
+                            </page>
+                            <page string="Career Path">
+                                <field name="career_path_id"/>
+
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_career_plan" model="ir.actions.act_window">
+        <field name="name">Career</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">career.plan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Employee!
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_career_plan"
+              name="Career"
+              action="action_career_plan"
+              parent="menu_career_plan_root"
+    />
+</odoo>

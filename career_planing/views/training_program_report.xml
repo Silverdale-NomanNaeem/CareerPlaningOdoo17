@@ -1,0 +1,33 @@
+<odoo>
+    <template id="report_training_program">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <main>
+                    <h2>Training Program Report</h2>
+                    <t t-foreach="docs" t-as="o">
+                        <h3><t t-esc="o.title"/></h3>
+                        <p><strong>Description:</strong> <t t-esc="o.description"/></p>
+                        <p><strong>Duration:</strong> <t t-esc="o.duration"/> days</p>
+                        <p><strong>Cost:</strong> <t t-esc="o.cost"/> <t t-esc="o.currency_id.symbol"/></p>
+                        <p><strong>Location:</strong> <t t-esc="o.location"/></p>
+                        <p><strong>Start Date:</strong> <t t-esc="o.start_date"/></p>
+                        <p><strong>End Date:</strong> <t t-esc="o.end_date"/></p>
+                        <h4>Employees Attending:</h4>
+                        <ul>
+                            <t t-foreach="o.employees_attending" t-as="emp">
+                                <li><t t-esc="emp.name"/></li>
+                            </t>
+                        </ul>
+                        <h4>Skills Covered:</h4>
+                        <ul>
+                            <t t-foreach="o.skills_covered" t-as="skill">
+                                <li><t t-esc="skill.name"/></li>
+                            </t>
+                        </ul>
+                        <hr/>
+                    </t>
+                </main>
+            </div>
+        </t>
+    </template>
+</odoo>

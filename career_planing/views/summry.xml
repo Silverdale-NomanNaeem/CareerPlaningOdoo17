@@ -1,0 +1,24 @@
+<odoo>
+    <record id="view_job_summary_form" model="ir.ui.view">
+        <field name="name">job.summary.form</field>
+        <field name="model">job.summary</field>
+        <field name="arch" type="xml">
+            <form string="Job Summary">
+                <group>
+                    <field name="summary" readonly="1"/>
+                </group>
+                <footer>
+                    <button string="Close" class="btn-primary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="job_summary_action" model="ir.actions.act_window">
+        <field name="name">Job Summary</field>
+        <field name="res_model">job.summary</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_job_listing_id': active_id}</field>
+    </record>
+</odoo>

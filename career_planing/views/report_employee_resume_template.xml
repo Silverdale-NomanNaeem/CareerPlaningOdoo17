@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="report_employee_resume">
+        <t t-call="web.basic_layout">
+            <main>
+                <div class="page">
+                    <!-- Adding RESUME Heading at the top of the page -->
+                    <div class="header">
+                        <h1 class="text-center">RESUME</h1>
+                        <t t-foreach="docs" t-as="doc">
+                            <img t-if="doc.image" t-att-src="image_data_uri(doc.image)"
+                                 alt="img"
+                                 height="100"
+                                 border="1" width="85"/>
+                        </t>
+                    </div>
+
+                    <div class="oe_structure"/>
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="row mt16">
+
+                            <div class="col-xs-9">
+                                <h2>
+                                    <t t-esc="doc.name"/>
+                                </h2>
+                                <div>Job Title:
+                                    <strong>
+                                        <t t-esc="doc.job_id.name"/>
+                                    </strong>
+                                </div>
+                                <div>Gender:
+                                    <strong>
+                                        <t t-esc="doc.gender"/>
+                                    </strong>
+                                </div>
+                                <div>Email:
+                                    <strong>
+                                        <t t-esc="doc.email"/>
+                                    </strong>
+                                </div>
+                                <div>Phone Number:
+                                    <strong>
+                                        <t t-esc="doc.phone_number"/>
+                                    </strong>
+                                </div>
+                                <div>Address:
+                                    <strong>
+                                        <t t-esc="doc.address"/>
+                                    </strong>
+                                </div>
+                                <div>Date of Birth:
+                                    <strong>
+                                        <t t-esc="doc.date_of_birth"/>
+                                    </strong>
+                                </div>
+                                <div>Age:
+                                    <strong>
+                                        <t t-esc="doc.age"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-xs-12">
+                                <h3>Education</h3>
+                                <p>
+                                    <t t-esc="doc.education"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-xs-12">
+                                <h3>Skills</h3>
+                                <ul>
+                                    <t t-foreach="doc.skill_id" t-as="skill">
+                                        <li>
+                                            <t t-esc="skill.name"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-xs-12">
+                                <h3>Courses</h3>
+                                <ul>
+                                    <t t-foreach="doc.course_id" t-as="course">
+                                        <li>
+                                            <t t-esc="course.name"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-xs-12">
+                                <h3>Job Experience</h3>
+                                <ul>
+                                    <t t-foreach="doc.job_id" t-as="job">
+                                        <li>
+                                            <t t-esc="job.name"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-xs-12">
+                                <h3>Career Plans</h3>
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Goals</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.career_plans" t-as="plan">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="plan.start_date"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="plan.end_date"/>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <t t-foreach="plan.goals_id" t-as="goal">
+                                                            <li>
+                                                                <t t-esc="goal.name"/>
+                                                            </li>
+                                                        </t>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </main>
+        </t>
+    </template>
+</odoo>

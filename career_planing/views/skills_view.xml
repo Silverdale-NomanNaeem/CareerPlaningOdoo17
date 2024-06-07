@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TREEEE VIEW-->
+<odoo>
+    <record id="view_employee_skill_tree" model="ir.ui.view">
+        <field name="name">employee.skill.tree</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" optional="show"/>
+                <field name="description" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    <!--FORM VIEW-->
+    <record id="view_employee_skill_form" model="ir.ui.view">
+        <field name="name">employee.skill.form</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Skills Form">
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="color" widget="color_picker"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_employee_skill" model="ir.actions.act_window">
+        <field name="name">Skills</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.skill</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Skills!
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_skill"
+              name="Skills"
+              action="action_employee_skill"
+              parent="menu_training_root"
+    />
+</odoo>

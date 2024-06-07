@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TREEEE VIEW-->
+<odoo>
+    <record id="view_employee_performance_review_search" model="ir.ui.view">
+        <field name="name">employee.performance.review.search</field>
+        <field name="model">employee.performance.review</field>
+        <field name="arch" type="xml">
+            <search>
+                <searchpanel>
+                    <field name="employee" string="Employee" icon="fa-male" select="multi"/>
+                    <field name="reviewer" string="Reviewer" icon="fa-male" select="multi"/>
+                    <field name="goals_achieved" string="Goals Achieved" icon="fa-bar-chart" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+    <record id="view_employee_performance_review_tree" model="ir.ui.view">
+        <field name="name">employee.performance.review.tree</field>
+        <field name="model">employee.performance.review</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="employee" optional="show"/>
+                <field name="review_date" optional="show"/>
+                <field name="reviewer" optional="show"/>
+                <field name="goals_achieved" optional="show" widget="many2many_tags"
+                       options="{'color_field': 'color'}"/>
+                <field name="strengths" optional="show"/>
+                <field name="areas_for_improvement" optional="show"/>
+
+            </tree>
+        </field>
+
+    </record>
+    <!--FORMMM VIEW-->
+    <record id="view_employee_performance_review_form" model="ir.ui.view">
+        <field name="name">employee.performance.review.form</field>
+        <field name="model">employee.performance.review</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Performance Form">
+                        <field name="employee" widget="many2one_avatar"/>
+                        <field name="review_date"/>
+                        <field name="reviewer"/>
+                        <field name="goals_achieved" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        <field name="strengths"/>
+                        <field name="areas_for_improvement"/>
+
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_employee_performance_review" model="ir.actions.act_window">
+        <field name="name">Performance Review</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.performance.review</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Performance Review!
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_employee_performance_review"
+              name="Performance Review"
+              action="action_employee_performance_review"
+              parent="menu_employee_feedback_root"
+    />
+</odoo>

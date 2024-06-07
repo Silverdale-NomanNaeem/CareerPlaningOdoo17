@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_root"
+              name="Career Planning"
+              web_icon="career_planing,static/images.png"
+              sequence="0"/>
+    <menuitem id="menu_employee_plan_root"
+              name="Employee"
+              parent="menu_root"
+              sequence="0"/>
+    <menuitem id="menu_career_plan_root"
+              name="Career Plan"
+              parent="menu_root"
+              sequence="0"/>
+    <menuitem id="menu_training_root"
+              name="Training"
+              parent="menu_root"
+              sequence="0"/>
+    <menuitem id="menu_employee_feedback_root"
+              name="Feedback"
+              parent="menu_root"
+              sequence="0"/>
+    <menuitem id="menu_career_ml_root"
+              name="Prediction"
+              parent="menu_root"
+              sequence="0"/>
+    <menuitem id="menu_job_marketplace_root"
+              name="Job Marketplace"
+              parent = 'menu_root'
+              sequence="10"/>
+</odoo>
+ 

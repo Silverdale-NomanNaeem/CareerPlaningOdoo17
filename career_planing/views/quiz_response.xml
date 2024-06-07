@@ -1,0 +1,67 @@
+<!-- quiz_response_views.xml -->
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_quiz_response_form" model="ir.ui.view">
+            <field name="name">quiz.response.form</field>
+            <field name="model">quiz.response</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- Add form fields here -->
+                    <sheet>
+
+                        <group>
+                            <field name="quiz_id"/>
+                            <field name="user_id"/>
+                            <field name="responses"/>
+                            <field name="score"/>
+                        </group>
+                        <group>
+                            <button name="%(action_employee_feedback)d" string="FeedBack"
+                                    class="oe_highlight" type="action"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_quiz_response_tree" model="ir.ui.view">
+            <field name="name">quiz.response.tree</field>
+            <field name="model">quiz.response</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="quiz_id"/>
+                    <field name="user_id"/>
+                    <field name="responses" widget="many2many_tags"/>
+                    <field name="score"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
+    <data>
+        <!-- Action for Quiz Response Form View -->
+        <record id="action_quiz_response" model="ir.actions.act_window">
+            <field name="name">Quiz Responses</field>
+            <field name="res_model">quiz.response</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Skills!
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_quiz_main"
+                  name="Quiz"
+                  parent="menu_training_root"
+        />
+        <menuitem id="menu_quiz_response"
+                  name="QuizResponse"
+                  action="action_quiz_response"
+                  parent="menu_quiz_main"
+        />
+    </data>
+</odoo>
+

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_profile_search" model="ir.ui.view">
+        <field name="name">employee.profile.search</field>
+        <field name="model">employee.profile</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Add filter for searching across multiple columns -->
+                <field name="name" string="Employee Name" filter_domain="[('name','ilike',self)]"/>
+                <field name="gender" string="Gender"/>
+                <field name="age"/>
+                <field name="job_title"/>
+                <field name="department_id"/>
+                <field name="skill_id"/>
+
+                <!-- Filters by gender -->
+                <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
+
+                <!-- Filters by age group -->
+                <filter name="filter_young" string="Young" domain="[('age','&lt;',30)]"/>
+                <filter name="filter_middle_age" string="Middle Age" domain="[('age','&gt;=',30),('age','&lt;=',50)]"/>
+                <filter name="filter_senior" string="Senior" domain="[('age','&gt;',50)]"/>
+
+                <separator/>
+
+                <!-- Group by options -->
+                <group expand="0" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}"/>
+                    <filter name="group_by_age" string="Age" context="{'group_by':'age'}"/>
+                    <filter name="group_by_job_title" string="Job Title" context="{'group_by':'job_title'}"/>
+                    <filter name="group_by_department" string="Department" context="{'group_by':'department_id'}"/>
+                    <filter name="group_by_skill" string="Skill" context="{'group_by':'skill_id'}"/>
+                </group>
+
+                <!-- Search panel -->
+                <searchpanel>
+                    <field name="gender" string="Gender" enable_counters="1" icon="fa-users" select="multi"/>
+                    <field name="department_id" string="Department" enable_counters="1" select="multi"/>
+                    <field name="skill_id" string="Skill" enable_counters="1" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_employee_profile_tree" model="ir.ui.view">
+        <field name="name">employee.profile.tree</field>
+        <field name="model">employee.profile</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" optional="show"/>
+                <field name="gender" optional="show"/>
+                <!--                <field name="job_title" optional="show"/>-->
+                <field name="department_id" optional="show"/>
+                <field name="email" widget="email" optional="show"/>
+                <field name="phone_number" widget="phone" optional="show"/>
+                <field name="address" optional="show"/>
+                <field name="joining_date" optional="show"/>
+                <field name="date_of_birth" optional="show"/>
+                <field name="education" optional="show"/>
+                <field name="skill_id" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="goal_id" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_employee_profile_form" model="ir.ui.view">
+        <field name="name">employee.profile.form</field>
+        <field name="model">employee.profile</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="send_career_plan_email" type="object" class="oe_stat_button" icon="fa-envelope-o"
+                                string="Send Career Plan Email">
+                            <field string="Send Career Plan Email" name="name" widget="statinfo"/>
+                        </button>
+                        <button name="%(action_employee_feedback)d" type="action" class="oe_stat_button" icon="fa-user"
+                                string="Employee Feedback">
+                            <field name="name" string="Feedback" widget="statinfo"/>
+                        </button>
+                        <button name="%(action_employee_resume_report)d" type="action" class="oe_stat_button"
+                                icon="fa-print" string="Print Resume">
+                            <field string="Generate Resume" name="name" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div>
+                        <h1>Employee</h1>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <label for="name" string="Name" class="oe_edit_only"/>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group string="Employee Form">
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <group string="Personal Information">
+                            <field name="name"/>
+                            <field name="address"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                        </group>
+                        <group string="Contact Information">
+                            <field name="email" widget="email"/>
+                            <field name="phone_number" widget="phone"/>
+                            <field name="address"/>
+                            <field name="color" invisible="1"/>
+                        </group>
+                        <group string="Career Information">
+                            <field name="joining_date"/>
+                            <field name="education"/>
+                            <field name="skill_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="goal_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Course" name="Course">
+
+                            <field name="course_id" widget="one2many_list"/>
+                        </page>
+                        <page string="Jobs" name="Jobs">
+                            <group>
+                                <field name="job_id"/>
+                            </group>
+                        </page>
+                        <page string="Department" name="Department">
+                            <group>
+                                <field name="department_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_employee_profile_kanban" model="ir.ui.view">
+        <field name="name">employee.profile.kanban</field>
+        <field name="model">employee.profile</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban">
+                <field name="id"/>
+                <field name="name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_image" style="border: 1px solid black;">
+                                <img alt="Employee"
+                                     t-att-src="kanban_image('employee.profile','image',record.id.raw_value)"
+                                     style="width: 80px; height: 80px; object-fit: cover;"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li class="mb4">
+                                        <h3>
+                                            <field name="name"/>
+                                        </h3>
+                                    </li>
+                                    <li class="float-right mb4">
+                                        <strong>Skill:</strong>
+                                        <field name="skill_id" options="{'color_field': 'color'}"/>
+                                    </li>
+                                    <li>
+                                        <strong>Department:</strong>
+                                        <field name="department_id" options="{'color_field': 'color'}"/>
+                                    </li>
+                                    <li>
+                                        <strong>Job:</strong>
+                                        <field name="job_id"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Activity View -->
+    <record id="view_employee_profile_activity" model="ir.ui.view">
+        <field name="name">employee.profile.activity</field>
+        <field name="model">employee.profile</field>
+        <field name="arch" type="xml">
+            <activity string="Employees">
+                <field name="id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('employee.profile', 'avatar_128', record.id.raw_value)"
+                             role="img"
+                             t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                        <div>
+                            <field name="name" display="full"/>
+                            <field name="job_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record model="ir.ui.view" id="view_employee_profile_graph1">
+        <field name="name">employee.profile.graph</field>
+        <field name="model">employee.profile</field>
+        <field name="arch" type="xml">
+            <graph string="Employees">
+                <field name="job_id"/>
+                <field name="department_id"/>
+                <field name="gender"/>
+                <field name="age"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_employee_profile" model="ir.actions.act_window">
+        <field name="name">Employee</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.profile</field>
+        <field name="view_mode">kanban,tree,graph,activity,form</field>
+        <field name="context">{'group_by': 'gender'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Employee!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_employee_resume_report" model="ir.actions.report">
+        <field name="name">Employee Resume Report</field>
+        <field name="model">employee.profile</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">career_planing.report_employee_resume</field>
+        <field name="report_file">career_planing.report_employee_resume</field>
+        <field name="binding_model_id" ref="model_employee_profile"/>
+    </record>
+
+    <menuitem id="menu_employee_profile"
+              name="Employee Profile"
+              action="action_employee_profile"
+              parent="menu_employee_plan_root"
+    />
+</odoo>

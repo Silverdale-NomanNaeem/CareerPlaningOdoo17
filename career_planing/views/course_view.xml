@@ -1,0 +1,65 @@
+<!-- quiz_response_views.xml -->
+<odoo>
+
+    <data>
+        <!-- Form View -->
+        <record id="view_course_search" model="ir.ui.view">
+            <field name="name">slide.channel.search</field>
+            <field name="model">slide.channel</field>
+            <field name="arch" type="xml">
+                <search>
+                    <!-- Add filter for searching across multiple columns -->
+
+                    <field name="user_id"/>
+                    <field name="skills"/>
+
+
+                    <separator/>
+
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_type" string="Gender" context="{'group_by':'channel_type'}"/>
+
+                    </group>
+
+                    <!-- Search panel -->
+                    <searchpanel>
+                        <field name="channel_type" string="channel_type" enable_counters="1" icon="fa-users" select="multi"/>
+                        <field name="skills" string="Skill" enable_counters="1" select="multi"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="training_course_view_form_" model="ir.ui.view">
+            <field name="name">training.course.view.form.inherit.slide.channel</field>
+            <field name="model">slide.channel</field>
+            <field name="inherit_id" ref="website_slides.view_slide_channel_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <group>
+                        <field name="skills" widget="many2many_tags" options="{'color_field': 'color'}"
+                               string="Skill cover"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <!-- Action for Quiz Response Form View -->
+        <record id="action_course1" model="ir.actions.act_window">
+            <field name="name">Course</field>
+            <field name="res_model">slide.channel</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Skills!
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_course1"
+                  name="Course"
+                  action="action_course1"
+                  parent="menu_training_root"
+        />
+    </data>
+</odoo>
+

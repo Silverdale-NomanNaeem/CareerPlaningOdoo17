@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TREEEE VIEW-->
+<odoo>
+
+    <record id="view_career_ask_tree" model="ir.ui.view">
+        <field name="name">career.ask.tree</field>
+        <field name="model">career.ask</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+
+                <field name="asking" optional="show"/>
+                <field name="response" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    <!--FORMMM VIEW-->
+    <record id="view_career_ask_form" model="ir.ui.view">
+        <field name="name">career.ask.form</field>
+        <field name="model">career.ask</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Career-Ask Form">
+
+                        <group>
+
+                            <field name="asking"/>
+                        </group>
+                        <group>
+                            <button name="action_ask" string="Ask to Gimini" type="object" class="btn-primary"/>
+                        </group>
+                        <group>
+
+                            <field name="response"/>
+                        </group>
+                    </group>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_career_ask" model="ir.actions.act_window">
+        <field name="name">Career Ask</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">career.ask</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Career ml!
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_career_ask"
+              name="Career Ask"
+              action="action_career_ask"
+              parent="menu_career_ml_root"
+    />
+</odoo>

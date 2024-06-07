@@ -1,0 +1,44 @@
+<!-- quiz_response_views.xml -->
+<odoo>
+
+    <data>
+        <!-- Form View -->
+
+        <record id="company_view_form_" model="ir.ui.view">
+            <field name="name">company.view.form.inherit.res.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <group>
+                        <field name="company_rating" string="Company Rating"/>
+                        <field name="numbers_of_reviews" string="# of reviews"/>
+                    </group>
+                </xpath>
+<!--                <xpath expr="//field[@name='color']" position="after">-->
+<!--                    <group>-->
+
+<!--                        <field name="feedback_id" string="Feedback" invisble="1"/>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+        <!-- Action for Quiz Response Form View -->
+        <record id="action_company1" model="ir.actions.act_window">
+            <field name="name">Company</field>
+            <field name="res_model">res.company</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Skills!
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_company1"
+                  name="Company"
+                  action="action_company1"
+                  parent="menu_root"
+        />
+    </data>
+</odoo>
+

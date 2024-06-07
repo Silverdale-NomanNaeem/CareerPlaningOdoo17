@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TREEEE VIEW-->
+<odoo>
+
+    <record id="view_career_ml_tree" model="ir.ui.view">
+        <field name="name">career.ml.tree</field>
+        <field name="model">career.ml</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+
+                <field name="employee_id" optional="show"/>
+                <field name="suggested_job_role" optional="show"/>
+            </tree>
+        </field>
+    </record>
+    <!--FORMMM VIEW-->
+    <record id="view_career_ml_form" model="ir.ui.view">
+        <field name="name">career.ml.form</field>
+        <field name="model">career.ml</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Career-Ml Form">
+                        <group>
+                            <!--                            <field name="name"/>-->
+
+                            <field name="employee_id"/>
+                            <field name="logical_quotient_rating"/>
+                            <field name="hackathons"/>
+                            <field name="coding_skills_rating"/>
+                            <field name="public_speaking_points"/>
+                            <field name="self_learning_capability"/>
+                        </group>
+                        <group>
+                            <field name="extra_courses"/>
+                            <field name="interested_career_area"/>
+                            <field name="company_preferencee" widget="selection"/>
+                            <field name="inputs_from_elders"/>
+                            <field name="worked_in_teams"/>
+                            <field name="introvert"/>
+                        </group>
+
+                        <group>
+                            <button name="action_prediction" string="Prediction" type="object" class="btn-primary"/>
+                            <field name="suggested_job_role"/>
+                        </group>
+                    </group>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_career_ml_graph1">
+        <field name="name">career.ml.graph</field>
+        <field name="model">career.ml</field>
+        <field name="arch" type="xml">
+            <graph string="Cases By Stage and Estimates" sample="1">
+                <field name="suggested_job_role"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_career_ml" model="ir.actions.act_window">
+        <field name="name">Career ML</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">career.ml</field>
+        <field name="view_mode">graph,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Career ml!
+            </p>
+        </field>
+    </record>
+
+    <!--   action for excel download-->
+    <record id="action_mldata_excel_report" model="ir.actions.act_url">
+        <field name="name">Attendance Excel Report</field>
+        <field name="target">self</field>
+        <field name="url">/ml_data/report/</field>
+    </record>
+
+    <menuitem id="menu_mldata_report"
+              name="Download data"
+              action="action_mldata_excel_report"
+              parent="menu_career_ml_root"
+    />
+
+    <menuitem id="menu_career_ml"
+              name="Career ML"
+              action="action_career_ml"
+              parent="menu_career_ml_root"
+    />
+</odoo>

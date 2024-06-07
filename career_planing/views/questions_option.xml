@@ -1,0 +1,61 @@
+<!-- quiz_response_views.xml -->
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_quiz_option_form" model="ir.ui.view">
+            <field name="name">quiz.option.form</field>
+            <field name="model">quiz.option</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- Add form fields here -->
+                    <sheet>
+
+                        <group>
+                            <field name="question_id"/>
+                            <field name="option_text"/>
+                            <field name="is_correct"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_quiz_option_tree" model="ir.ui.view">
+            <field name="name">quiz.option.tree</field>
+            <field name="model">quiz.option</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="question_id"/>
+                    <field name="option_text"/>
+                    <field name="is_correct"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
+    <data>
+        <!-- Action for Quiz Response Form View -->
+        <record id="action_quiz_option" model="ir.actions.act_window">
+            <field name="name">Question Option</field>
+            <field name="res_model">quiz.option</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Skills!
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_quiz_main"
+                  name="Quiz"
+                  parent="menu_training_root"
+        />
+        <menuitem id="menu_quiz_option"
+                  name="QuizOption"
+                  action="action_quiz_option"
+                  parent="menu_quiz_main"
+                  groups="group_quiz_admin"
+        />
+    </data>
+</odoo>
+

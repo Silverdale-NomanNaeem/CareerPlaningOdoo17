@@ -1,0 +1,110 @@
+<odoo>
+    <record id="view_job_listing_tree" model="ir.ui.view">
+        <field name="name">job.listing.tree</field>
+        <field name="model">job.listing</field>
+        <field name="arch" type="xml">
+            <tree string="Job Listings">
+                <field name="job_id"/>
+                <field name="company_id"/>
+                <field name="location"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="salary"/>
+                <field name="state"/>
+                <field name="job_type" widget="badge"
+                       decoration-info="job_type == 'full_time'"
+                       decoration-success="job_type == 'part_time'"
+                       decoration-primary="job_type == 'contract'"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_job_listing_form" model="ir.ui.view">
+        <field name="name">job.listing.form</field>
+        <field name="model">job.listing</field>
+        <field name="arch" type="xml">
+            <form string="Job Listing">
+                <header>
+                    <button name="%(job_summary_action)d"
+                            string="Summarize"
+                            type="action"
+                            class="oe_highlight"
+                            icon="fa-file-text"/>
+
+                    <button name="text_to_speech"
+                            string="Text to Speech"
+                            type="object"
+                            class="oe_highlight"
+                            icon="fa-volume-up"/>
+                    <button name="correct_grammar"
+                            string="Correct Grammar"
+                            type="object"
+                            class="oe_highlight"
+                            icon="fa-globe"
+                            invisible="state == 'closed'"/>
+                    <button name="action_draft" string="Reset To Draft" type="object" class="btn btn-secondary"
+                            invisible="state != 'closed'"
+                            data-hotkey="w"/>
+                    <button name="action_open" string="Open" type="object" class="oe_highlight"
+                            invisible="state != 'draft'" data-hotkey="q"/>
+
+                    <button name="action_closed" string="Closed" type="object"
+                            invisible="state != 'open'" data-hotkey="x"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,closed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="job_id"/>
+                            <field name="description"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                            <field name="currency_id" invisible="0"/>
+                            <field name="salary"/>
+                            <field name="job_type"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <field name="job_id"/>
+
+                    <button string="Open" type="object" name="action_open"/>
+                    <button string="Close" type="object" name="action_closed"/>
+                </footer>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_job_listing_graph">
+        <field name="name">job.listing.graph</field>
+        <field name="model">job.listing</field>
+        <field name="arch" type="xml">
+            <graph string="Job Type" sample="1">
+                <field name="job_type"/>
+                <field name="job_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_job_listing" model="ir.actions.act_window">
+        <field name="name">Job Listings</field>
+        <field name="res_model">job.listing</field>
+        <field name="view_mode">tree,graph,form</field>
+    </record>
+
+    <menuitem id="menu_job_listings"
+              name="Job Listings"
+              parent="menu_job_marketplace_root"
+              action="action_job_listing"
+              sequence="10"/>
+
+
+</odoo>

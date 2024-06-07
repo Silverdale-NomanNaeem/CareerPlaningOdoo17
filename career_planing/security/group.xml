@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Define the category for the employer module -->
+    <record model="ir.module.category" id="career_employee_roles">
+        <field name="name">Employer</field>
+        <field name="description">User access levels for employer module</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Define the Employee user group -->
+    <record id="employee_access" model="res.groups">
+        <field name="name">Employee</field>
+        <field name="category_id" ref="career_employee_roles"/>
+    </record>
+
+    <!-- Define the Employer user group with implied Employee group -->
+    <record id="employer_access" model="res.groups">
+        <field name="name">Employer</field>
+        <field name="category_id" ref="career_employee_roles"/>
+        <field name="implied_ids" eval="[(4, ref('employee_access'))]"/>
+    </record>
+    <!-- Security Group -->
+    <record id="group_quiz_admin" model="res.groups">
+        <field name="name">Quiz Admin</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+
+</odoo>

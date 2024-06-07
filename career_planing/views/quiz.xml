@@ -1,0 +1,63 @@
+<!-- quiz_response_views.xml -->
+<odoo>
+
+    <data>
+        <!-- Form View -->
+        <record id="view_quiz_quiz_form" model="ir.ui.view">
+            <field name="name">quiz.quiz.form</field>
+            <field name="model">quiz.quiz</field>
+            <field name="arch" type="xml">
+                <form>
+                    <!-- Add form fields here -->
+                    <sheet>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="questions" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_quiz_quiz_tree" model="ir.ui.view">
+            <field name="name">quiz.quiz.tree</field>
+            <field name="model">quiz.quiz</field>
+            <field name="arch" type="xml">
+                <tree>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="questions" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+
+    <data>
+        <!-- Action for Quiz Response Form View -->
+        <record id="action_quiz_quiz" model="ir.actions.act_window">
+            <field name="name">Quiz</field>
+            <field name="res_model">quiz.quiz</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Skills!
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_quiz_main"
+                  name="Quiz"
+                  parent="menu_training_root"
+        />
+        <menuitem id="menu_quiz_quiz"
+                  name="Quiz"
+                  action="action_quiz_quiz"
+                  parent="menu_quiz_main"
+                  sequence = '0'
+                  groups="group_quiz_admin"
+        />
+    </data>
+</odoo>
+

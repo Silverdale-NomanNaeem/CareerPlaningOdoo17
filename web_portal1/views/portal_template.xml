@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template id="portal_my_home" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">employee</t>-->
+                <t t-set="text">Career of my employee</t>
+                <t t-set="url" t-value="'/my/employee'"/>
+                <t t-set="placeholder_count" t-value="'employee_counts'"/>
+            </t>
+        </xpath>
+
+    </template>
+    <template id="employee_list_view_portal">
+    <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Employee</t>
+        </t>
+        <t t-call="portal.portal_table">
+            <t t-foreach="group_employee" t-as="employee_group">
+                <thead>
+
+                    <tr class="active">
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Photo</th>
+                        <th class="text-center">Gender</th>
+                        <th class="text-center" t-if="groupby != 'skill_id'">Skill</th>
+                        <th class="text-center" t-if="groupby != 'goal_id'">Goal</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="employee_group['employee']" t-as="employee">
+                        <tr>
+                            <td class="text-center">
+                                <a t-attf-href="/my/employee/#{employee.id}">
+                                    <t t-esc="employee.name"/>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <t t-if="employee.image">
+                                    <img t-attf-src="data:image/png;base64,{{employee.image}}" alt="avatar"
+                                         class="rounded-circle img-fluid" style="width: 60px; height: 60px"/>
+                                </t>
+                                <t t-else="">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                         alt="avatar" class="rounded-circle img-fluid" style="width: 60px; height: 60px"/>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <t t-esc="employee.gender"/>
+                            </td>
+                            <td class="text-center" t-if="groupby != 'skill_id'">
+                                <t t-foreach="employee.skill_id" t-as="skill">
+                                    <span t-esc="skill.name"/><t t-if="skill != employee.skill_id[-1]">, </t>
+                                </t>
+                            </td>
+                            <td class="text-center" t-if="groupby != 'goal_id'">
+                                <t t-foreach="employee.goal_id" t-as="goal">
+                                    <span t-esc="goal.name"/><t t-if="goal != employee.goal_id[-1]">, </t>
+                                </t>
+                            </td>
+                            <td class="text-center">
+                                <t t-esc="employee.email"/>
+                            </td>
+                            <td class="text-center">
+                                <t t-esc="employee.address"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </t>
+</template>
+
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'employee_list_view'" class="breadcrumb-item">Employee</li>
+            <li t-if="page_name == 'employee_form_view'" class="breadcrumb-item">
+                <a href="/my/employee">Employee</a>
+                /
+                <span t-out="employee.name"/>
+            </li>
+        </xpath>
+
+    </template>
+    <template id="employee_form_view_portal" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-if="page_name == 'employee_form_view'">
+                <section style="background-color: #eee;">
+                    <div class="container py-5">
+                        <div class="row">
+                            <!--                            <div class="col">-->
+                            <!--                                <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">-->
+                            <!--                                    <ol class="breadcrumb mb-0">-->
+                            <!--                                        <li class="breadcrumb-item">-->
+                            <!--                                            <a href="#">Home</a>-->
+                            <!--                                        </li>-->
+                            <!--                                        <li class="breadcrumb-item">-->
+                            <!--                                            <a href="#">User</a>-->
+                            <!--                                        </li>-->
+                            <!--                                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>-->
+                            <!--                                    </ol>-->
+                            <!--                                </nav>-->
+                            <!--                            </div>-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <t t-if="employee.image">
+                                            <img t-attf-src="data:image/png;base64,{{employee.image}}" alt="avatar"
+                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
+                                        </t>
+                                        <a t-attf-href="/my/employee/print/{{employee.id}}" class="fa fa-download">
+                                            Download resume
+                                        </a>
+                                        <h5 class="my-3">
+                                            <t t-out="employee.name"/>
+                                        </h5>
+                                        <p class="text-muted mb-1">Full Stack Developer</p>
+                                        <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                                        <div class="d-flex justify-content-center mb-2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 mb-lg-0">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Full Name</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee.email"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Phone</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee.phone_number"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Address</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee.address"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Job</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card mb-4 mb-md-0">
+                                            <div class="card-body">
+                                                <p class="mb-4">
+                                                    <span class="text-primary font-italic me-1">assigment</span>
+                                                    Project Status
+                                                </p>
+                                                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 80%"
+                                                         aria-valuenow="80"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 72%"
+                                                         aria-valuenow="72"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 89%"
+                                                         aria-valuenow="89"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 55%"
+                                                         aria-valuenow="55"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                                <div class="progress rounded mb-2" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 66%"
+                                                         aria-valuenow="66"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card mb-4 mb-md-0">
+                                            <div class="card-body">
+                                                <p class="mb-4">
+                                                    <span class="text-primary font-italic me-1">assigment</span>
+                                                    Project Status
+                                                </p>
+                                                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 80%"
+                                                         aria-valuenow="80"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 72%"
+                                                         aria-valuenow="72"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 89%"
+                                                         aria-valuenow="89"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                                                <div class="progress rounded" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 55%"
+                                                         aria-valuenow="55"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                                                <div class="progress rounded mb-2" style="height: 5px;">
+                                                    <div class="progress-bar" role="progressbar" style="width: 66%"
+                                                         aria-valuenow="66"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container py-5">
+                        <h1>Chatter Feature</h1>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="employee"/>
+                        </t>
+                    </div>
+                </section>
+            </t>
+        </xpath>
+    </template>
+</odoo>

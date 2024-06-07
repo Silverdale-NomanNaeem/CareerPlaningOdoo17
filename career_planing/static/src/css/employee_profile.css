@@ -1,0 +1,22 @@
+#employee_profile_app {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#employee_profile_app input {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+}
+
+#employee_profile_app ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#employee_profile_app li {
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+z

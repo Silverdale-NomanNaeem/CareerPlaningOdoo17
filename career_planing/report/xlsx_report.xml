@@ -1,0 +1,10 @@
+<odoo>
+    <record id="report_employee_xlsx" model="ir.actions.report">
+        <field name="name">Employee excel report</field>
+        <field name="model">employee.profile</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">career_planning.employee_xlsx_report</field>
+        <field name="report_file">career_planning.employee_xlsx_report</field>
+        <field name="binding_model_id" ref="model_employee_profile"/>
+    </record>
+</odoo>

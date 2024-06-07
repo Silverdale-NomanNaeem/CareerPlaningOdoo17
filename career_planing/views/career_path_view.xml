@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TREEEE VIEW-->
+<odoo>
+        <record id="view_career_path_search" model="ir.ui.view">
+        <field name="name">career.path.search</field>
+        <field name="model">career.path</field>
+        <field name="arch" type="xml">
+            <search>
+                <searchpanel>
+                    <field name="required_skills" string="Required Skills" icon="fa-code" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+    <record id="view_career_path_tree" model="ir.ui.view">
+        <field name="name">career.path.tree</field>
+        <field name="model">career.path</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" optional="show"/>
+                <field name="description" optional="show"/>
+                <field name="required_skills" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="promotion_criteria" optional="show"/>
+            </tree>
+        </field>
+    </record>
+        <record model="ir.ui.view" id="view_career_goal_graph">
+        <field name="name">career.goal.graph</field>
+        <field name="model">career.goal</field>
+        <field name="arch" type="xml">
+            <graph string="Priority" sample="1">
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+    <!--FORMMM VIEW-->
+    <record id="view_career_path_form" model="ir.ui.view">
+        <field name="name">career.path.form</field>
+        <field name="model">career.path</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Career-Path Form">
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="required_skills" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        <field name="promotion_criteria"/>
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_career_path" model="ir.actions.act_window">
+        <field name="name">Career Path</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">career.path</field>
+        <field name="view_mode">pivot,graph,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Career Path!
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_career_path"
+              name="Career Path"
+              action="action_career_path"
+              parent="menu_career_plan_root"
+    />
+</odoo>

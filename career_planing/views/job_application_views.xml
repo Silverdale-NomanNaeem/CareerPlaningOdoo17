@@ -1,0 +1,66 @@
+<odoo>
+    <record id="view_job_application_tree" model="ir.ui.view">
+        <field name="name">job.application.tree</field>
+        <field name="model">job.application</field>
+        <field name="arch" type="xml">
+            <tree string="Job Applications">
+                <field name="job_listing_id"/>
+                <field name="applicant_id"/>
+                <field name="application_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_job_application_form" model="ir.ui.view">
+        <field name="name">job.application.form</field>
+        <field name="model">job.application</field>
+        <field name="arch" type="xml">
+            <form string="Job Application">
+            <header>
+                <button name="action_applied" string="Set to Applied" type="object" class="btn btn-secondary"
+                        invisible="state != 'rejected'"
+                        data-hotkey="w"/>
+                <button name="action_shortlist" string="Shortlist" type="object" class="oe_highlight"
+                        invisible="state != 'applied'" data-hotkey="q"/>
+                <button name="action_interview" string="Set to Interview" type="object"
+                        invisible="state != 'shortlisted'" data-hotkey="e"/>
+                <button name="action_offer" string="Offer Job" type="object"
+                        invisible="state != 'interview'" data-hotkey="r"/>
+                <button name="action_reject" string="Reject" type="object"
+                        invisible="state != 'applied' and state != 'shortlisted' and state != 'interview' and state != 'offered'" data-hotkey="t"/>
+                <button name="action_hire" string="Hire" type="object"
+                        invisible="state != 'offered'" data-hotkey="y"/>
+
+                <field name="state" widget="statusbar" statusbar_visible="applied,shortlisted,interview,offered,rejected,hired"/>
+            </header>
+                <sheet>
+                    <group>
+                        <field name="job_listing_id"/>
+                        <field name="applicant_id"/>
+                        <field name="application_date"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Shortlist" type="object" name="action_shortlist"/>
+                    <button string="Interview" type="object" name="action_interview"/>
+                    <button string="Offer" type="object" name="action_offer"/>
+                    <button string="Reject" type="object" name="action_reject"/>
+                    <button string="Hire" type="object" name="action_hire"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_job_application" model="ir.actions.act_window">
+        <field name="name">Job Applications</field>
+        <field name="res_model">job.application</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+        <menuitem id="menu_job_applications"
+              name="Job Applications"
+              parent="menu_job_marketplace_root"
+              action="action_job_application"
+              sequence="20"/>
+</odoo>

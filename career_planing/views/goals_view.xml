@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Search View -->
+    <record id="view_career_goal_search" model="ir.ui.view">
+        <field name="name">career.goal.search</field>
+        <field name="model">career.goal</field>
+        <field name="arch" type="xml">
+            <search>
+                <!--  Below filter domain makes us search across multiple columns -->
+                <field name="name" string="Employee Name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="priority" string="Priority"/>
+
+                <!-- Filters by priority -->
+                <filter name="filter_low" string="Low" domain="[('priority', '=', '1')]"/>
+                <filter name="filter_medium" string="Medium" domain="[('priority', '=', '2')]"/>
+                <filter name="filter_high" string="High" domain="[('priority', '=', '3')]"/>
+
+                <!-- Filters by state -->
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_pending" string="Pending" domain="[('state', '=', 'pending')]"/>
+                <filter name="filter_in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="filter_completed" string="Completed" domain="[('state', '=', 'completed')]"/>
+
+                <separator/>
+
+                <!-- Group By options -->
+                <group expand="0" string="Group By">
+                    <filter name="group_by_priority" string="Priority" context="{'group_by':'priority'}"/>
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}"/>
+                </group>
+
+                <!-- Search panel -->
+                <searchpanel>
+                    <field name="priority" string="Priority" icon=" fa-star-half-o" select="multi"/>
+                    <field name="state" string="State" icon="fa-exchange" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Tree View -->
+    <record id="view_career_goal_tree" model="ir.ui.view">
+        <field name="name">career.goal.tree</field>
+        <field name="model">career.goal</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" optional="show"/>
+                <field name="description" optional="show"/>
+<!--                <field name="career_plan" optional="show"/>-->
+                <field name="priority" widget="priority" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'completed'"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'in_progress'"
+                       decoration-muted="state == 'pending'" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record model="ir.ui.view" id="view_career_goal_graph">
+        <field name="name">career.goal.graph</field>
+        <field name="model">career.goal</field>
+        <field name="arch" type="xml">
+            <graph string="Priority" sample="1">
+                <field name="state"/>
+                <field name="priority"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_career_goal_form" model="ir.ui.view">
+        <field name="name">career.goal.form</field>
+        <field name="model">career.goal</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- Buttons with conditional visibility based on state -->
+                    <button name="button_pending" type="object" string="Pending"
+                            class="oe_highlight" help="Move the Goal to pending state"
+                            groups="base.group_user"/>
+                    <button name="button_reset_to_draft" type="object" string="Reset to Draft"
+                            class="oe_highlight" help="Reset the Goal to draft state"
+                            groups="base.group_user"/>
+                    <button name="button_complete" type="object" string="Complete"
+                            class="oe_highlight" help="Move Goal to Complete state"
+                            groups="base.group_user"/>
+                    <button name="button_in_progress" type="object" string="In Progress"
+                            class="oe_highlight" help="Move Goal to In Progress state"
+                            groups="base.group_user"/>
+
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,pending,in_progress,completed"/>
+                </header>
+
+                <sheet>
+                    <group string="Goal Form">
+                        <field name="priority" widget="priority"/>
+                        <group>
+                            <field name="state" invisible="1"/>
+                            <field name="name"/>
+                            <field name="description"/>
+<!--                            <field name="career_plan"/>-->
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_career_goal" model="ir.actions.act_window">
+        <field name="name">Goals</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">career.goal</field>
+        <field name="view_mode">tree,graph,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Goal!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_career_goal"
+              name="Goal"
+              action="action_career_goal"
+              parent="menu_career_plan_root"/>
+</odoo>

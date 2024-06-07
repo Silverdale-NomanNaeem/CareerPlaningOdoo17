@@ -1,0 +1,67 @@
+<!-- quiz_response_views.xml -->
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_quiz_response_line_form" model="ir.ui.view">
+            <field name="name">quiz.response.line.form</field>
+            <field name="model">quiz.response.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                       <group>
+                    <!-- Ensure response_id and question_check fields are included and invisible -->
+                    <field name="response_id" invisible="1"/>
+<!--                    <field name="question_check" invisible="1"/>-->
+                    <!-- Use domain filtering based on question_check -->
+<!--                    <field name="question_id" domain="[('id', 'in', question_check)]"/>-->
+                    <field name="question_id" />
+                    <field name="selected_option_id" widget="radio" domain="[('question_id', '=', question_id)]"/>
+                    <field name="is_correct"/>
+                </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Tree View -->
+        <record id="view_quiz_response_line_tree" model="ir.ui.view">
+            <field name="name">quiz.response.line.tree</field>
+            <field name="model">quiz.response.line</field>
+            <field name="arch" type="xml">
+                <tree>
+
+                    <field name="question_id"/>
+                    <field name="selected_option_id"/>
+                    <!--                            <field name="is_correct" />-->
+
+                </tree>
+            </field>
+        </record>
+    </data>
+
+    <data>
+        <!-- Action for Quiz Response Form View -->
+        <record id="action_quiz_response_line" model="ir.actions.act_window">
+            <field name="name">Quiz Responses Line</field>
+            <field name="res_model">quiz.response.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Skills!
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_quiz_main"
+                  name="Quiz"
+                  parent="menu_training_root"
+        />
+        <menuitem id="menu_quiz_response_line"
+                  name="QuizResponseLine"
+                  action="action_quiz_response_line"
+                  parent="menu_quiz_main"
+                  groups="group_quiz_admin"
+        />
+    </data>
+</odoo>
+
