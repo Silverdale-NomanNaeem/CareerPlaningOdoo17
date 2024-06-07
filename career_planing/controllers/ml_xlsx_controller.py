@@ -4,17 +4,17 @@ import xlsxwriter
 from io import BytesIO
 import base64
 
-class AttendanceReportController(http.Controller):
+class MldataReportController(http.Controller):
 
     @http.route('/ml_data/report', type='http', auth='user')
-    def get_attendance_report(self, **kwargs):
+    def get_Mldata_report(self, **kwargs):
         # Fetch attendance records
         attendance_records = request.env['career.ml'].search([])
         # attendance_records = request.env['mohsin.student.attendance'].search([])
 
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet('Attendance Report')
+        worksheet = workbook.add_worksheet('Employee_data Report')
 
         # Add a bold format for headers
         bold = workbook.add_format({'bold': True})
@@ -67,7 +67,7 @@ class AttendanceReportController(http.Controller):
             file_data,
             headers=[
                 ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
-                ('Content-Disposition', 'attachment; filename=Attendance_Report.xlsx;')
+                ('Content-Disposition', 'attachment; filename=Employee_Data_Report.xlsx;')
             ]
         )
         return response
